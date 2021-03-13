@@ -115,10 +115,14 @@ public class AddressBook
      *
      * @param lastName is an addressEntry's last name
      */
-    public LinkedList<AddressEntry> find(String lastName)
+    public ArrayList<AddressEntry> find(String lastName)
     {
         int val = 1;
-        LinkedList<AddressEntry> obj = new LinkedList<>();
+        ArrayList<AddressEntry> obj = new ArrayList<>();
+        if(lastName == null)
+        {
+            return obj;
+        }
         boolean sameLastName = false;// will allow us to know if string value entered is found
         for(int i = 0; i < addressEntryList.size(); i++)
         {

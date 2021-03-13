@@ -61,7 +61,7 @@ class AddressBookTest {
         obj.add(newObj2);
         obj.remove("Emily", "Emily"); //deleting 1
         // Since "Emily" was deleted, list should be empty
-        LinkedList<AddressEntry> list = obj.find("Emily");
+        ArrayList<AddressEntry> list = obj.find("Emily");
 
         // list should be size = 0
         assertEquals(0, list.size());
@@ -99,7 +99,7 @@ class AddressBookTest {
         obj.add(newObj1);
         obj.add(newObj2);
         // checkking if "Emily" was actually found
-        LinkedList<AddressEntry> list = obj.find("Emily");
+        ArrayList<AddressEntry> list = obj.find("Emily");
         assertEquals("Emily",list.get(0).getName().getLastName());
     }
     /**

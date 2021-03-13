@@ -63,7 +63,7 @@ public class Menu  {
                 ", select number of entry you wish to remove: ");
 
         //a find is done, prints out all the people with that last name
-        LinkedList<AddressEntry> list; // list will have all the possible people to delete
+        ArrayList<AddressEntry> list; // list will have all the possible people to delete
         list = obj.find(name);  //LIST - contains list of possible AddressEntries to delete
 
         // Checking to see if there is one AddressEntry close to what they seek

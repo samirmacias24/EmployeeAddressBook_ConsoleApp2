@@ -35,12 +35,12 @@ public class GuiMainMenu extends JFrame  {
     ArrayList<AddressEntry> addressEntryList = new ArrayList<>();
     AddressBook book = new AddressBook();
 
+
     public void openFile()
     {
         book.readFromFile("file.txt");
         book.sortList();
         addressEntryList = book.list();
-
     }
     public void sortList()
     {
@@ -96,7 +96,6 @@ public class GuiMainMenu extends JFrame  {
                 String h = textField8.getText();
                 String i = textField9.getText();
 
-
                 int ff =Integer.parseInt(f);
                 Name name = new Name(a, b);
                 Address address = new Address(c,d,ee,ff);
@@ -130,7 +129,6 @@ public class GuiMainMenu extends JFrame  {
                 }
             }
         });
-
 
         frame.getContentPane().add(mainFrame);
         frame.setBounds(600, 600, 750, 750);

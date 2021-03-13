@@ -3,6 +3,7 @@
  */
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -57,7 +58,7 @@ class MenuTest {
         AddressEntry newPerson = new AddressEntry(name1, address1, "123-456-7890","bob@gmail.com", "df41323");
 
         obj.add(newPerson);
-        LinkedList<AddressEntry> newList = obj.find("Bob");
+        ArrayList<AddressEntry> newList = obj.find("Bob");
         String expected = "Bob" + " " + "Bob" + " \n" + "street1" + " " + "city" + " \n" + "state1" + " "
                 + 12345 + " \n" + "123-456-7890" + " \n" + "bob@gmail.com" + "\n";
 
@@ -80,7 +81,7 @@ class MenuTest {
         obj.add(newEntry);
         // Testing if we were able to remove
         obj.remove("Bob", "Bob");
-        LinkedList<AddressEntry> list = obj.find("Bob");
+        ArrayList<AddressEntry> list = obj.find("Bob");
         assertEquals(0, list.size());
     }
 
