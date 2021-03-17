@@ -24,28 +24,52 @@ public class DataBaseConnect   {
         Connection conn =
                 DriverManager.getConnection("jdbc:oracle:thin:mcs1021/qeDnwqhU@adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu");
 
-        // Create a Statement
-        Statement stmt = conn.createStatement ();
-        // Select the all (*) from the table JAVATEST
-        ResultSet rset = stmt.executeQuery("SELECT * FROM ADDRESSENTRYTABLE");
-        System.out.println(rset);
 
+        String query = "delete from users where LASTNAME = ?";
+
+        // Create a Statement
+        Statement stmt = conn.createStatement();
+        // Select the all (*) from the table JAVATEST
+
+        //ResultSet rset = stmt.executeQuery("SELECT * FROM ADDRESSENTRYTABLE");
+        //System.out.println(rset);
+
+
+
+        int val = 3;
+        String sqlDelete = "DELETE FROM ADDRESSENTRYTABLE WHERE ID = " + val;
+        System.out.println("The SQL statement is: " + sqlDelete + "\n");//for debugging
+        int countDeleted = stmt.executeUpdate(sqlDelete);
+        System.out.println(countDeleted + " records deleted.\n");
+
+
+/*
+        // Check ResultSet's updatability
+        if (rset.getConcurrency() == ResultSet.CONCUR_READ_ONLY) {
+            System.out.println("ResultSet non-updatable.");
+        } else {
+            System.out.println("ResultSet updatable.");
+        }
 
         // Iterate through the result and print the employee names
-
         while (rset.next ()) //get next row of table returned
         {
+
             for(int i=1; i<=rset.getMetaData().getColumnCount(); i++) //visit each column
             {
                 System.out.print(rset.getString(i) + " | ");
+
             }
+
             System.out.println(" ");
             System.out.println("==============================================================================================");
         }
 
+
         //Close access to everything...will otherwise happen when disconnect
         // from database.
         rset.close();
+    */
         stmt.close();
         conn.close();
 

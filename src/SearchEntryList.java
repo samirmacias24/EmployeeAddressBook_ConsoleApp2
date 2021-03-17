@@ -6,7 +6,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Vector;
-
+/**
+ * Displays a new window with specific entries that were
+ * searched
+ */
 public class SearchEntryList extends GuiMain {
 
     private JFrame frame;
@@ -19,6 +22,11 @@ public class SearchEntryList extends GuiMain {
     private DefaultListModel<AddressEntry> myaddressEntryListModel = new DefaultListModel<AddressEntry>();
     private ArrayList<AddressEntry> addressEntryList = new ArrayList<AddressEntry>();
 
+    /**
+     * Constructor takes in the last name of an entry from user,
+     * creates list with all the entries with the same last name
+     * @param text is the last name entered by the user
+     */
     SearchEntryList(String text)
     {
         frame = new JFrame();
@@ -52,14 +60,17 @@ public class SearchEntryList extends GuiMain {
         frame.setBounds(100, 100, 450, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
+        /**
+         * Removes the Window
+         */
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //GuiMain obj = new GuiMain();
                 boolean a = false;
 
-                frame.setVisible(false);
+                frame.dispose();
+              //  frame.setVisible(false);
             }
         });
     }
