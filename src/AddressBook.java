@@ -54,7 +54,7 @@ public class AddressBook
         {
             String realLastName = addressEntryList.get(i).getName().getLastName();
             String realFirstName = addressEntryList.get(i).getName().getLastName();
-            if(realFirstName == firstname && realLastName == lastname)
+            if(realFirstName.equals(firstname) && realLastName.equals(lastname))
             {
                 addressEntryList.remove(i);
                 break;

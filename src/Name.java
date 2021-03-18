@@ -11,9 +11,6 @@ public class Name {
      */
     private String lastName;
 
-
-
-
     public Name(String a, String b) {
         firstName = a;
         lastName = b;

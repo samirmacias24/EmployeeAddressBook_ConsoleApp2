@@ -29,18 +29,41 @@ public class GuiMain
     private JButton exitButton;
     private JButton enterButton;
 
+    // 9 entries from user
+    private JPanel addingPanel = new JPanel();
+
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextField textField4;
+    private JTextField textField5;
+    private JTextField textField6;
+    private JTextField textField7;
+    private JTextField textField8;
+    private JTextField textField9;
+    private JTextField textField10;
+
+    private JLabel label2;
+    private JLabel label3;
+    private JLabel label4;
+    private JLabel label5;
+    private JLabel label6;
+    private JLabel label7;
+    private JLabel label8;
+    private JLabel label9;
+    private JLabel label10;
+
+
     private JTextField textField1;
     private JLabel searchLabel;
 
     private ArrayList<AddressEntry> addressEntryList = new ArrayList<>();
-    private JList <AddressEntry> addressEntryJList;
     private DefaultListModel<AddressEntry> myaddressEntryListModel = new DefaultListModel<AddressEntry>();
+    private JList <AddressEntry> addressEntryJList  = new JList<AddressEntry>(myaddressEntryListModel);
+
     private String searchText; // string will contain what the user entered to search
 
     AddressBook book = new AddressBook(); // will contain all the entries
-
     private boolean singleWindow; // ensures that only one additional window can be created
-
     /**
      * Constructor creates an interface with corresponding components
      * Add,Remove,Update,Search, Exit,
@@ -49,7 +72,7 @@ public class GuiMain
     {
         // calls 'dataBaseConnect' and retrieves all the entries from the database
         try {
-            book = dataBaseConnect();
+            book = dataBaseConnect(); //places all the entries into 'book' an AddressBook
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -61,24 +84,66 @@ public class GuiMain
         {  this.myaddressEntryListModel.add(i, this.addressEntryList.get(i)); }
 
         //Now when we create our JList do it from our ListModel rather than our vector of AddressEntry
-        addressEntryJList = new JList<AddressEntry>(this.myaddressEntryListModel);
 
         // create JList using the addressEntryList
         this.addressEntryJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         this.addressEntryJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         this.addressEntryJList.setVisibleRowCount(-1);
 
-        frame = new JFrame();
-        frame.setBounds(100, 100, 600, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         //create scrollPane associated with JList
-        scrollPane = new JScrollPane(this.addressEntryJList);
-        //MainPanel.add(scrollPane);
-        frame.getContentPane().add(searchPanel, BorderLayout.NORTH);
-        frame.getContentPane().add(scrollPane,   BorderLayout.CENTER);
-        frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-        //frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        addressEntryJList.setSize(new Dimension(200,200));
+        scrollPane = new JScrollPane(this.addressEntryJList,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        listPanel.add(scrollPane);
+
+        //setup for adding new entries 'addingPanel'
+        label2 = new JLabel("First Name");
+        label3 = new JLabel("Last Name");
+        label4 = new JLabel("Street");
+        label5 = new JLabel("City");
+        label6 = new JLabel("State");
+        label7 = new JLabel("Zip");
+        label8 = new JLabel("Email");
+        label9 = new JLabel("Phone");
+        label10 = new JLabel("ID");
+
+        textField2 = new JTextField();
+        textField2.setColumns(10);
+        textField3= new JTextField();
+        textField3.setColumns(10);
+        textField4= new JTextField();
+        textField4.setColumns(10);
+        textField5= new JTextField();
+        textField5.setColumns(10);
+        textField6= new JTextField();
+        textField6.setColumns(10);
+        textField7= new JTextField();
+        textField7.setColumns(10);
+        textField8= new JTextField();
+        textField8.setColumns(10);
+        textField9= new JTextField();
+        textField9.setColumns(10);
+        textField10= new JTextField();
+        textField10.setColumns(10);
+
+        addingPanel.add(label2);
+        addingPanel.add(textField2);
+        addingPanel.add(label3);
+        addingPanel.add(textField3);
+        addingPanel.add(label4);
+        addingPanel.add(textField4);
+        addingPanel.add(label5);
+        addingPanel.add(textField5);
+        addingPanel.add(label6);
+        addingPanel.add(textField6);
+        addingPanel.add(label7);
+        addingPanel.add(textField7);
+        addingPanel.add(label8);
+        addingPanel.add(textField8);
+        addingPanel.add(label9);
+        addingPanel.add(textField9);
+        addingPanel.add(label10);
+        addingPanel.add(textField10);
+
 
         // setup for the top panel 'searchPanel'
         textField1 = new JTextField();
@@ -89,7 +154,7 @@ public class GuiMain
         searchPanel.add(textField1);
         searchPanel.add(enterButton);
 
-        // initilizing buttons
+        // initilizing buttons for 'buttonPanel'
         newButton = new JButton("Add");
         removeButton = new JButton("Remove");
         updateButton = new JButton("Update");
@@ -99,6 +164,19 @@ public class GuiMain
         buttonPanel.add(removeButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(exitButton);
+
+        MainPanel.add(addingPanel);
+        MainPanel.add(searchPanel);
+        MainPanel.add(buttonPanel);
+        MainPanel.add(listPanel);
+
+        frame = new JFrame("Project2");
+        frame.getContentPane().add(MainPanel);
+        frame.setBounds(100, 100, 600, 300);
+        frame.getContentPane().setLayout(new GridLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+
         /**
          * Removes an entry from list and database
          */
@@ -108,7 +186,7 @@ public class GuiMain
                 int index = addressEntryJList.getSelectedIndex();
                 //must delete from the database
                 try {
-                    String name = addressEntryJList.getModel().getElementAt(index).getName().getLastName(); // get the entry we seek to delete
+                    AddressEntry name = addressEntryJList.getModel().getElementAt(index); // get the entry we seek to delete
                     removeDataBaseInfo(name);
 
                 } catch (SQLException throwables) {
@@ -119,8 +197,10 @@ public class GuiMain
                 // delete from JList
                 if(index != -1)//something is selected otherwise do nothing
                 {
-                    //retrieve the DeffaultListModel associated with our JList and remove from it the AddressEntry at this index
-                    ((DefaultListModel<AddressEntry>) (addressEntryJList.getModel())).remove(index);
+                    // removing from: AddressBook , AddressEntryList, Model
+                    book.remove(addressEntryList.get(index).getName().getLastName(),addressEntryList.get(index).getName().getFirstName());
+                    addressEntryList.remove(index);
+                    myaddressEntryListModel.removeElementAt(index);
                 }
             }
         });
@@ -149,6 +229,129 @@ public class GuiMain
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(1);
+            }
+        });
+        /**
+         *  Adds new AddressEntry to the database and list
+         */
+        newButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String a = textField2.getText();
+                String b = textField3.getText();
+                String c = textField4.getText();
+                String d = textField5.getText();
+                String ee = textField6.getText();
+                String f =  textField7.getText();
+                String g = textField8.getText();
+                String h = textField9.getText();
+                String i = textField10.getText();
+
+                int ff =Integer.parseInt(f);
+                AddressEntry newEntry = new AddressEntry(a,b,c,d,ee,ff,g,h,i);
+
+                book.add(newEntry);
+                book.sortList();
+                addressEntryList = book.list(); // the ArrayList gets the new organized list
+
+                // adding to the database
+                try {
+                    addDataBaseInfo(newEntry);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                }
+
+                myaddressEntryListModel.clear();
+                for(int j = 0; j<addressEntryList.size(); j++)
+                {
+                    myaddressEntryListModel.add(j, addressEntryList.get(j));
+                }
+                // create JList using the addressEntryList
+                addressEntryJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+                addressEntryJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+                addressEntryJList.setVisibleRowCount(-1);
+
+                // will clear all the entries entered
+                textField2.setText("");
+                textField3.setText("");
+                textField4.setText("");
+                textField5.setText("");
+                textField6.setText("");
+                textField7.setText("");
+                textField8.setText("");
+                textField9.setText("");
+                textField10.setText("");
+
+            }
+        });
+        /**
+         * Will update an entry from the list
+         */
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = addressEntryJList.getSelectedIndex(); // retrieve selected index
+                AddressEntry original  = addressEntryJList.getModel().getElementAt(index);
+
+                // will remove selected entry from AddressBook , AddressEntryList, Model
+                if(index != -1)//something is selected otherwise do nothing
+                {
+                    // removing from: AddressBook , AddressEntryList, Model
+                    book.remove(addressEntryList.get(index).getName().getLastName(),addressEntryList.get(index).getName().getFirstName());
+                    addressEntryList.remove(index);
+                    myaddressEntryListModel.removeElementAt(index);
+                }
+                else // if nothing is selecteed then don't do anything
+                {
+                    return;
+                }
+                    //creating a new entry from user input
+                    String a = textField2.getText();
+                    String b = textField3.getText();
+                    String c = textField4.getText();
+                    String d = textField5.getText();
+                    String ee = textField6.getText();
+                    String f = textField7.getText();
+                    String g = textField8.getText();
+                    String h = textField9.getText();
+                    String i = textField10.getText();
+                    int ff = Integer.parseInt(f);
+                    AddressEntry newEntry = new AddressEntry(a, b, c, d, ee, ff, g, h, i);
+
+                try {
+                    updateDataBaseInfo(original, newEntry);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                }
+                book.add(newEntry);
+                book.sortList();
+                addressEntryList = book.list(); // the ArrayList gets the new organized list
+
+                myaddressEntryListModel.clear();
+                for (int j = 0; j < addressEntryList.size(); j++) {
+                    myaddressEntryListModel.add(j, addressEntryList.get(j));
+                }
+                // create JList using the addressEntryList
+                addressEntryJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+                addressEntryJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+                addressEntryJList.setVisibleRowCount(-1);
+
+                // will clear all the entries entered
+                textField2.setText("");
+                textField3.setText("");
+                textField4.setText("");
+                textField5.setText("");
+                textField6.setText("");
+                textField7.setText("");
+                textField8.setText("");
+                textField9.setText("");
+                textField10.setText("");
+
+
             }
         });
     }
@@ -182,14 +385,7 @@ public class GuiMain
         AddressBook newAdrBook = new AddressBook();
         // Load the Oracle JDBC driver
         Class.forName ("oracle.jdbc.OracleDriver"); //name of driver may change w/ versions
-
-        //check Oracle documentation online
-        // Or could do DriverManager.registerDriver (new oracle.jdbc.OracleDriver());
-
         // Connect to the database
-        // generic host url = jdbc:oracle:thin:login/password@host:port/SID for Oracle SEE Account INFO you
-        // were given by our CS tech in an email ---THIS WILL BE DIFFERENT
-        //jdbc:oracle:thin:@//adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu
         Connection conn =
                 DriverManager.getConnection("jdbc:oracle:thin:mcs1021/qeDnwqhU@adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu");
 
@@ -214,8 +410,6 @@ public class GuiMain
             for(int i=1; i<=rset.getMetaData().getColumnCount(); i++) //visit each column
             {
                 String val = rset.getString(i);
-                System.out.println(val);
-                System.out.println("======");
                 switch(i)
                 {
                     case 1:
@@ -246,7 +440,6 @@ public class GuiMain
                         phone = val;
                         break;
                 }
-                //System.out.print(rset.getString(i) + " | ");
             }
             int newZip = Integer.parseInt(zip);
             AddressEntry newEntry = new AddressEntry(firstname, lastName, street, city, state, newZip,email, phone,id);
@@ -262,21 +455,19 @@ public class GuiMain
         return newAdrBook;
     }
 
-    public static void removeDataBaseInfo(String name) throws SQLException, ClassNotFoundException
+    /**
+     * Reads every entry in the database, deletes/removes the one mathcing 'name' parameter
+     * @param name the lastName of the entry that is going to be deleted(removed from database
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public static void removeDataBaseInfo(AddressEntry name) throws SQLException, ClassNotFoundException
     {
         // Load the Oracle JDBC driver
         Class.forName ("oracle.jdbc.OracleDriver"); //name of driver may change w/ versions
-
-        //check Oracle documentation online
-        // Or could do DriverManager.registerDriver (new oracle.jdbc.OracleDriver());
-
         // Connect to the database
-        // generic host url = jdbc:oracle:thin:login/password@host:port/SID for Oracle SEE Account INFO you
-        // were given by our CS tech in an email ---THIS WILL BE DIFFERENT
-        //jdbc:oracle:thin:@//adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu
         Connection conn =
                 DriverManager.getConnection("jdbc:oracle:thin:mcs1021/qeDnwqhU@adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu");
-
 
         // Create a Statement
         Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY,
@@ -307,8 +498,6 @@ public class GuiMain
             for(int i=1; i<=rset.getMetaData().getColumnCount(); i++) //visit each column
             {
                 String val = rset.getString(i);
-                System.out.println(val);
-                System.out.println("======");
                 switch(i)
                 {
                     case 1:
@@ -339,12 +528,13 @@ public class GuiMain
                         phone = val;
                         break;
                 }
-                //System.out.print(rset.getString(i) + " | ");
             }
+            //creates a new AddressEntry
             int newZip = Integer.parseInt(zip);
             AddressEntry newEntry = new AddressEntry(firstname, lastName, street, city, state, newZip,email, phone,id);
             int new_id = Integer.parseInt(newEntry.getID());
-            if(name.equals(newEntry.getName().getLastName()))
+            //if the addressEntry's lastName matches given argument then delete it (using its ID)
+            if((name.getName().getLastName()).equals(newEntry.getName().getLastName()) && name.getName().getFirstName().equals(newEntry.getName().getFirstName()))
             {
                 String sqlDelete = "DELETE FROM ADDRESSENTRYTABLE WHERE ID = " + new_id;
                 System.out.println("The SQL statement is: " + sqlDelete + "\n");//for debugging
@@ -352,15 +542,69 @@ public class GuiMain
                 System.out.println(countDeleted + " records deleted.\n");
                 break;
             }
-
         }
-
         //Close access to everything...will otherwise happen when disconnect
         // from database.
         rset.close();
         stmt.close();
         conn.close();
     }
+
+    /**
+     * Adds a new Entry to the database
+     * @param newEntry is the new entry that is going to be added
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public static void addDataBaseInfo(AddressEntry newEntry) throws SQLException, ClassNotFoundException
+    {
+        // Load the Oracle JDBC driver
+        Class.forName ("oracle.jdbc.OracleDriver"); //name of driver may change w/ versions
+        //Connecting to DataBase
+        Connection conn =
+                DriverManager.getConnection("jdbc:oracle:thin:mcs1021/qeDnwqhU@adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu");
+        String query = "delete from users where LASTNAME = ?";
+        // Create a Statement
+        Statement stmt = conn.createStatement();
+
+        String id = newEntry.getID();
+        int id2 = Integer.parseInt(id);
+        String firstName = newEntry.getName().getFirstName();
+        String lastName = newEntry.getName().getLastName();
+        String street = newEntry.getAddress().getStreet();
+        String city = newEntry.getAddress().getCity();
+        String state = newEntry.getAddress().getState();
+        int zip = newEntry.getAddress().getZip();
+        String email = newEntry.getEmail();
+        String phone = newEntry.getPhone();
+
+        // sets up the SQL statement
+        String sqlInsert = "INSERT INTO ADDRESSENTRYTABLE VALUES " + "(" + id2 +
+                ", '"+firstName + "', '"+ lastName+"', '"+street+"', '"+ city+"', '"+ state+
+                "', "+ zip+", '"+ email+"', '" + phone + "')";
+
+        // Adds the new Entry to the database
+        System.out.println("The SQL statement is: " + sqlInsert + "\n");  // Echo for debugging
+        int countInserted = stmt.executeUpdate(sqlInsert);
+        System.out.println(countInserted + " records inserted.\n");
+
+        stmt.close();
+        conn.close();
+    }
+
+    /**
+     * updates one of the entries
+     * @param newEntry1 original entry
+     * @param newEntry2 the entry that will replace the original
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public static void updateDataBaseInfo(AddressEntry newEntry1, AddressEntry newEntry2) throws SQLException, ClassNotFoundException
+    {
+        removeDataBaseInfo(newEntry1);
+        addDataBaseInfo(newEntry2);
+    }
+
     // Setters and Getters
     public void setSearchText(String text)
     {

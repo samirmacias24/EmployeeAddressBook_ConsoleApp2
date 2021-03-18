@@ -31,10 +31,14 @@ public class GuiMainMenu extends JFrame  {
     private JScrollPane theScrollPane;
     private JPanel inputInfo;
     private JTextField textField9;
+    // search panel
+    private JTextField textField10;
+    private JButton enterButton;
+    private JPanel searchPanel = new JPanel();
+    private JLabel searchLabel;
 
     ArrayList<AddressEntry> addressEntryList = new ArrayList<>();
     AddressBook book = new AddressBook();
-
 
     public void openFile()
     {
@@ -50,8 +54,18 @@ public class GuiMainMenu extends JFrame  {
 
     public GuiMainMenu() {
 
+        searchLabel = new JLabel("Search");
+        enterButton = new JButton("Enter");
+        textField10 = new JTextField();
+        textField10.setColumns(15);
+        searchPanel.add(searchLabel);
+        searchPanel.add(textField10);
+        searchPanel.add(enterButton);
+
+
         list1.setSize(new Dimension(200,200));
         theScrollPane = new JScrollPane(list1,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        buttonPanel.add(searchPanel);
         buttonPanel.add(displayButton);
         buttonPanel.add(newButton);
         buttonPanel.add(removeButton);
@@ -143,4 +157,5 @@ public class GuiMainMenu extends JFrame  {
         GuiMainMenu mainMenu = new GuiMainMenu();
         mainMenu.frame.setVisible(true);
     }
+
 }
