@@ -10,7 +10,8 @@ import java.util.Vector;
  * The Gui's main class creates an interface with basic operations
  * that can be done to a list such as: add, remove, exit, update
  * and search.
- *
+ * @author Samir Macias, Mark Perez, Megan Jen
+ * @version 1.0
  */
 public class GuiMain
 {
